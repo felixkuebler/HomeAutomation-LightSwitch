@@ -3,11 +3,11 @@
 #include <vector>
 
 #include <ESP8266WiFi.h>
-
 #include <DNSServer.h>
 #include <ESP8266WebServer.h>
 #include <WiFiClient.h> 
 #include <PubSubClient.h>
+#include <ESP8266HTTPUpdateServer.h>
 #include <EEPROM.h>
 
 #include "utils.h"
@@ -26,9 +26,10 @@ short int reset_pin;
 
 
 DNSServer dnsServer;
-ESP8266WebServer webServer(80);
-WiFiClient wifi_client;
-PubSubClient client(wifi_client);
+ESP8266WebServer wifiServer(80);
+WiFiClient wifiClient;
+ESP8266HTTPUpdateServer wifiUpdater;
+PubSubClient client(wifiClient);
 
 
 CONFIG setup_type = default_config;
@@ -45,7 +46,7 @@ void htmlHandleRequest()
   short int request_count = 0;
   
   //get ssid request message from client
-  String val = webServer.arg("wifi_ssid");
+  String val = wifiServer.arg("wifi_ssid");
   //check if a message is not empty
   if(val.length()>0)
   {
@@ -57,7 +58,7 @@ void htmlHandleRequest()
   }
 
   //get pw request message from client
-  val = webServer.arg("wifi_pw");
+  val = wifiServer.arg("wifi_pw");
   //check if a message is not empty
   if(val.length()>0)
   {
@@ -69,7 +70,7 @@ void htmlHandleRequest()
   }
 
   //get host name request message from client
-  val = webServer.arg("host_name");
+  val = wifiServer.arg("host_name");
   //check if a message is not empty
   if(val.length()>0)
   {
@@ -81,7 +82,7 @@ void htmlHandleRequest()
   }
 
   //get host name request message from client
-  val = webServer.arg("host_pw");
+  val = wifiServer.arg("host_pw");
   //check if a message is not empty
   if(val.length()>0)
   {
@@ -93,7 +94,7 @@ void htmlHandleRequest()
   }
   
   //get mqtt broker request message from client
-  val = webServer.arg("mqtt_broker");
+  val = wifiServer.arg("mqtt_broker");
   //check if a message is not empty
   if(val.length()>0)
   {
@@ -108,7 +109,7 @@ void htmlHandleRequest()
   for (io_list::iterator it=input_list.begin(); it!=input_list.end(); ++it)
   {
     //get topic from client
-    val = webServer.arg(it->first + "_topic");
+    val = wifiServer.arg(it->first + "_topic");
     //check if message is not empty
     if(val.length()>0)
     {
@@ -120,7 +121,7 @@ void htmlHandleRequest()
     }
 
     //get on command from client
-    val = webServer.arg(it->first + "_on_command");
+    val = wifiServer.arg(it->first + "_on_command");
     //check if message is not empty
     if(val.length()>0)
     {
@@ -132,7 +133,7 @@ void htmlHandleRequest()
     }
 
     //get off command from client
-    val = webServer.arg(it->first + "_off_command");
+    val = wifiServer.arg(it->first + "_off_command");
     //check if message is not empty
     if(val.length()>0)
     {
@@ -144,7 +145,7 @@ void htmlHandleRequest()
     }
 
     //get toggle command from client
-    val = webServer.arg(it->first + "_toggle_command");
+    val = wifiServer.arg(it->first + "_toggle_command");
     //check if message is not empty
     if(val.length()>0)
     {
@@ -160,7 +161,7 @@ void htmlHandleRequest()
   for (io_list::iterator it=output_list.begin(); it!=output_list.end(); ++it)
   {
     //get topic from client
-    val = webServer.arg(it->first + "_topic");
+    val = wifiServer.arg(it->first + "_topic");
     //check if message is not empty
     if(val.length()>0)
     {
@@ -172,7 +173,7 @@ void htmlHandleRequest()
     }
 
     //get on command from client
-    val = webServer.arg(it->first + "_on_command");
+    val = wifiServer.arg(it->first + "_on_command");
     //check if message is not empty
     if(val.length()>0)
     {
@@ -184,7 +185,7 @@ void htmlHandleRequest()
     }
 
     //get off command from client
-    val = webServer.arg(it->first + "_off_command");
+    val = wifiServer.arg(it->first + "_off_command");
     //check if message is not empty
     if(val.length()>0)
     {
@@ -196,7 +197,7 @@ void htmlHandleRequest()
     }
 
     //get toggle command from client
-    val = webServer.arg(it->first + "_toggle_command");
+    val = wifiServer.arg(it->first + "_toggle_command");
     //check if message is not empty
     if(val.length()>0)
     {
@@ -209,7 +210,7 @@ void htmlHandleRequest()
   }
 
   //get reset trigger from client
-  String reset_settings = webServer.arg("reset_settings");
+  String reset_settings = wifiServer.arg("reset_settings");
   //check if a reset was triggered
   if(reset_settings.length()>0)
   {
@@ -223,7 +224,7 @@ void htmlHandleRequest()
   }
 
   //get save trigger from client
-  String save_settings = webServer.arg("save_settings");
+  String save_settings = wifiServer.arg("save_settings");
   //check if save was triggered
   if(save_settings.length()>0)
   {
@@ -238,8 +239,8 @@ void htmlHandleRequest()
     ESP.reset();
   }
 
-  //give webserver new webpage
-  webServer.send(200, "text/html", generateWebpage(wifi_info, input_list, output_list));
+  //give wifiServer new webpage
+  wifiServer.send(200, "text/html", generateWebpage(wifi_info, input_list, output_list));
 }
 
 
@@ -527,11 +528,12 @@ void wifi_setup(char reset_byte)
   }
     
   //define request actions
-  webServer.onNotFound(htmlHandleRequest);
+  wifiServer.onNotFound(htmlHandleRequest);
 
   //start http server
   Serial.println("start http server");
-  webServer.begin();
+  wifiUpdater.setup(&wifiServer);
+  wifiServer.begin();
 }
 
 
@@ -569,7 +571,7 @@ void setup(void)
 
 
 /*
- * main loop that evaluates dns, webserver and mqtt events
+ * main loop that evaluates dns, wifiServer and mqtt events
  */
 void loop(void)
 {
@@ -623,7 +625,7 @@ void loop(void)
     }
 
     dnsServer.processNextRequest();
-    webServer.handleClient();
+    wifiServer.handleClient();
 
     delay(50);
   }
