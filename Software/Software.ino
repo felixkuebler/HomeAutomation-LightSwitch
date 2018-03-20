@@ -42,8 +42,57 @@ bool network_available = false;
  */
 void htmlHandleRequest() 
 {
-  //request counter
-  short int request_count = 0;
+
+  //webrequest for output
+  for (io_list::iterator it=output_list.begin(); it!=output_list.end(); ++it)
+  {
+    //get name of output
+    String val = wifiServer.arg(it->second.topic);
+    //check if message is not empty
+    if(val.length()>0)
+    {
+      Serial.print("Setting " + it->second.topic + " to ");
+
+      int trigger_value = -1;
+      
+      //set changes
+      if(strcmp(val.c_str(),"toggle") == 0) 
+      {
+        if(it->second.state == HIGH)
+        {
+          trigger_value = LOW;
+          Serial.println("OFF");
+        }
+        else
+        {
+          trigger_value = HIGH;
+          Serial.println("ON");
+        }
+      }
+      else if(strcmp(val.c_str(),"on") == 0) 
+      {
+        trigger_value = HIGH;
+        Serial.println("ON");
+      }
+      else if(strcmp(val.c_str(),"off") == 0) 
+      {
+        trigger_value = LOW;
+        Serial.println("OFF");
+      }
+
+
+      if(trigger_value != -1)
+      { 
+        it->second.state = trigger_value;
+        digitalWrite(it->second.pin, trigger_value);
+      }
+    }  
+  }
+     
+
+
+
+  
   
   //get ssid request message from client
   String val = wifiServer.arg("wifi_ssid");
@@ -54,7 +103,6 @@ void htmlHandleRequest()
     if(strcmp(val.c_str(),"-1") == 0) val="";
     Serial.println("wifi_ssid : " + val);
     wifi_info.wifi_ssid = val;
-    request_count++;
   }
 
   //get pw request message from client
@@ -66,7 +114,6 @@ void htmlHandleRequest()
     if(strcmp(val.c_str(),"-1") == 0) val="";
     Serial.println("wifi_pw : " + val);
     wifi_info.wifi_pw = val;
-    request_count++;
   }
 
   //get host name request message from client
@@ -78,7 +125,6 @@ void htmlHandleRequest()
     if(strcmp(val.c_str(),"-1") == 0) val="";
     Serial.println("host name : " + val);
     wifi_info.host_name = val;
-    request_count++;
   }
 
   //get host name request message from client
@@ -90,7 +136,6 @@ void htmlHandleRequest()
     if(strcmp(val.c_str(),"-1") == 0) val="";
     Serial.println("host pw : " + val);
     wifi_info.host_pw = val;
-    request_count++;
   }
   
   //get mqtt broker request message from client
@@ -102,7 +147,6 @@ void htmlHandleRequest()
     if(strcmp(val.c_str(),"-1") == 0) val="";
     Serial.println("mqtt broker : " + val);
     wifi_info.mqtt_broker = val;
-    request_count++;
   }
  
   //loop will apply changes to the input settings
@@ -117,7 +161,6 @@ void htmlHandleRequest()
       Serial.println(it->first + "_topic : " + val);
       //apply changes
       it->second.topic = val;
-      request_count++;
     }
 
     //get on command from client
@@ -129,7 +172,6 @@ void htmlHandleRequest()
       Serial.println(it->first + "_on_command : " + val);
       //apply changes
       it->second.on_command = val;
-      request_count++;
     }
 
     //get off command from client
@@ -141,7 +183,6 @@ void htmlHandleRequest()
       Serial.println(it->first + "_off_command : " + val);
       //apply changes
       it->second.off_command = val;
-      request_count++;
     }
 
     //get toggle command from client
@@ -153,7 +194,6 @@ void htmlHandleRequest()
       Serial.println(it->first + "_toggle_command : " + val);
       //apply changes
       it->second.toggle_command = val;
-      request_count++;
     }
   }
 
@@ -169,7 +209,6 @@ void htmlHandleRequest()
       Serial.println(it->first + "_topic : " + val);
       //apply changes
       it->second.topic = val;
-      request_count++;
     }
 
     //get on command from client
@@ -181,7 +220,6 @@ void htmlHandleRequest()
       Serial.println(it->first + "_on_command : " + val);
       //apply changes
       it->second.on_command = val;
-      request_count++;
     }
 
     //get off command from client
@@ -193,7 +231,6 @@ void htmlHandleRequest()
       Serial.println(it->first + "_off_command : " + val);
       //apply changes
       it->second.off_command = val;
-      request_count++;
     }
 
     //get toggle command from client
@@ -205,7 +242,6 @@ void htmlHandleRequest()
       Serial.println(it->first + "_toggle_command : " + val);
       //apply changes
       it->second.toggle_command = val;
-      request_count++;
     }
   }
 

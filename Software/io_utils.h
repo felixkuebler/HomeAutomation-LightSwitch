@@ -10,7 +10,7 @@ struct io_obj
   String off_command;
   String toggle_command;
 
-  io_obj(String topic, short int pin): topic(topic), pin(pin), state(LOW), on_command("1"), off_command("0"), toggle_command("t"){}
+  io_obj(String topic, short int pin): topic(topic), pin(pin), state(LOW), on_command("on"), off_command("off"), toggle_command("toggle"){}
 };
 
 typedef std::map<String, io_obj> io_list;
