@@ -1,3 +1,5 @@
+/**@file**/
+
 #ifndef WEB_INTERFACE
 #define WEB_INTERFACE
 

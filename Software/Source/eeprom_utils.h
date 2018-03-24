@@ -1,7 +1,15 @@
+/**@file**/
+
 #ifndef EEPROM_UTILS
 #define EEPROM_UTILS
 
 
+/**
+ * writes a given character to a specific address of the eeprom.
+ * @param addr address to write to
+ * @param character charater written to eeprom
+ * @return next writable address
+ **/
 short int writeCharToEEPROM(short int addr, char character)
 {
   EEPROM.write(addr,character);
@@ -10,6 +18,12 @@ short int writeCharToEEPROM(short int addr, char character)
   return addr+1;
 }
 
+/**
+ * reads a character from a specific address of the eeprom.
+ * @param addr address to read from
+ * @param character character readfrom eeprom
+ * @return next readable address
+ **/
 short int readCharFromEEPROM(short int addr, char &character)
 {
   character = EEPROM.read(addr);
@@ -17,6 +31,12 @@ short int readCharFromEEPROM(short int addr, char &character)
   return addr+1;
 }
 
+/**
+ * writes a given string to a specific address of the eeprom.
+ * @param addr address to start writing to
+ * @param str string written to eeprom
+ * @return next writable address
+ **/
 short int writeStringToEEPROM(short int addr, String str)
 {
   for (int i=addr; i<addr+str.length(); i++)
@@ -29,6 +49,12 @@ short int writeStringToEEPROM(short int addr, String str)
   return addr+str.length()+1;
 }
 
+/**
+ * reads a string from a specific address of the eeprom.
+ * @param addr address to start reading from
+ * @param str string read from eeprom
+ * @return next readable address
+ **/
 short int readStringFromEEPROM(short int addr, String &str)
 {
   str="";
@@ -44,16 +70,32 @@ short int readStringFromEEPROM(short int addr, String &str)
   return i+1;
 }
 
+/**
+ * writes a single character to the first address of the eeprom.
+ * the first character is used as a reset mode indicator
+ * @param reset_byte reset indicator char (0:default settings, 1:user setting)
+ **/
 void saveResetByteToEEPROM(char reset_byte)
 {
   writeCharToEEPROM(0, reset_byte);
 }
 
+/**
+ * reads a single character from the first address of the eeprom.
+ * the first character is used as a reset mode indicator
+ * @param reset_byte reset indicator char (0:default settings, 1:user setting)
+ **/
 void readResetByteFromEEPROM(char &reset_byte)
 {
   readCharFromEEPROM(0,reset_byte);
 }
- 
+
+/**
+ * writes all necessary wifi and io settings to the eeprom.
+ * @param wifi_info container for wifi settings
+ * @param input_list list of container for input settings
+ * @param output_list list of container for output settings
+ **/
 void saveSettingsToEEPROM(wifi_obj wifi_info, io_list input_list, io_list output_list)
 {
   int addr = sizeof(char);
@@ -81,6 +123,12 @@ void saveSettingsToEEPROM(wifi_obj wifi_info, io_list input_list, io_list output
   }
 }
 
+/**
+ * reades all necessary wifi and io settings from the eeprom.
+ * @param wifi_info container for wifi settings
+ * @param input_list list of container for input settings
+ * @param output_list list of container for output settings
+ **/
 void loadSettingsFromEEPROM(wifi_obj &wifi_info, io_list &input_list, io_list &output_list)
 {
   int addr = sizeof(char);

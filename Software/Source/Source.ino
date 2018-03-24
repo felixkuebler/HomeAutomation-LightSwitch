@@ -1,4 +1,18 @@
+/**@file Software.ino**/
 
+/** \mainpage My Personal Index Page
+ *
+ * \section intro Introduction
+ *
+ * This is the introduction.
+ *
+ * \section install Installation
+ *
+ * \subsection step1 Step 1: Opening the box
+ *  
+ * etc...
+ **/
+ 
 #include <map>
 #include <vector>
 
@@ -252,7 +266,7 @@ void htmlHandleRequest()
   {
     Serial.println("System Settings set to default");
     //write reset flag to eeprom to use after a system reboot
-    writeCharToEEPROM(0, 0);
+    saveResetByteToEEPROM(0);
 
     //reboot system
     ESP.eraseConfig();
@@ -268,7 +282,7 @@ void htmlHandleRequest()
 
     //save local changes to eeprom
     saveSettingsToEEPROM(wifi_info, input_list, output_list);
-    writeCharToEEPROM(0, 1);
+    saveResetByteToEEPROM(1);
     
     //reboot system
     ESP.eraseConfig();
@@ -600,7 +614,7 @@ void setup(void)
   //read first byte of eeprom as reset indicatior
   Serial.print("read reset byte from eeprom: ");
   char reset_byte;
-  readCharFromEEPROM(0, reset_byte);
+  readResetByteFromEEPROM(reset_byte);
   
   wifi_setup(reset_byte);
 }
