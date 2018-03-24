@@ -1,8 +1,7 @@
-
 #define switch1 16
 #define switch2 14
-#define relay1 12
-#define relay2 13
+#define relay1  12
+#define relay2  13
 
 void setup(void)
 {
