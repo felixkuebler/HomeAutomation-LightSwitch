@@ -1,4 +1,4 @@
-update=Sonntag, 08. April 2018 03:27:56
+update=Sonntag, 15. April 2018 17:32:06
 version=1
 last_client=kicad
 [pcbnew]
@@ -62,3 +62,13 @@ LibName30=valves
 LibName31=Libraries/Schematics/ESP8266
 LibName32=Libraries/Schematics/HiLink
 LibName33=Libraries/Schematics/SharpSSR
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=../Plots/
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
