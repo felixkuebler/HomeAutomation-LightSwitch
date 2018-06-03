@@ -604,7 +604,7 @@ void setup(void)
   addToIOList(output_list, "relay_2", "relay_2", 13, OUTPUT);
 
   //add default wifi info
-  wifi_info = wifi_obj("HA_Node_005");
+  wifi_info = wifi_obj("Andre_Test_Switch");
 
   reset_pin = 4;
 
