@@ -1,4 +1,4 @@
-update=Sonntag, 15. April 2018 17:32:06
+update=Montag, 03. September 2018 20:21:59
 version=1
 last_client=kicad
 [pcbnew]
@@ -25,6 +25,16 @@ version=1
 NetIExt=net
 [general]
 version=1
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=../Plots/
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
 [eeschema]
 version=1
 LibDir=lib/schematics
@@ -62,13 +72,4 @@ LibName30=valves
 LibName31=Libraries/Schematics/ESP8266
 LibName32=Libraries/Schematics/HiLink
 LibName33=Libraries/Schematics/SharpSSR
-[schematic_editor]
-version=1
-PageLayoutDescrFile=
-PlotDirectoryName=../Plots/
-SubpartIdSeparator=0
-SubpartFirstId=65
-NetFmtName=
-SpiceForceRefPrefix=0
-SpiceUseNetNumbers=0
-LabSize=60
+LibName34=Libraries/Schematics/SW_DPST_x2

@@ -1,6 +1,0 @@
-(fp_lib_table
-  (lib (name ESP8266)(type KiCad)(uri "$(KIPRJMOD)/Libraries/Footprints/ESP8266.pretty")(options "")(descr ""))
-  (lib (name HiLink)(type KiCad)(uri "$(KIPRJMOD)/Libraries/Footprints/HiLink.pretty")(options "")(descr ""))
-  (lib (name SSR)(type KiCad)(uri "$(KIPRJMOD)/Libraries/Footprints/SSR.pretty")(options "")(descr ""))
-  (lib (name Terminal)(type KiCad)(uri "$(KIPRJMOD)/Libraries/Footprints/Terminal.pretty")(options "")(descr ""))
-)
