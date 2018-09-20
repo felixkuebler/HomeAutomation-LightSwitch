@@ -39,8 +39,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Light Switch"
-Date "2018-02-10"
-Rev "1.1.0"
+Date "2018-09-20"
+Rev "1.2.0"
 Comp "Felix Kübler"
 Comment1 ""
 Comment2 ""

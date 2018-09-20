@@ -3,7 +3,7 @@
   (general
     (links 38)
     (no_connects 2)
-    (area 127.178999 98.095999 164.413001 134.695001)
+    (area 112.54681 90.01 180.951 138.265)
     (thickness 1.6)
     (drawings 8)
     (tracks 136)
@@ -15,8 +15,8 @@
   (page A4)
   (title_block
     (title "Light Switch")
-    (date 2018-02-10)
-    (rev 1.1.0)
+    (date 2018-09-20)
+    (rev 1.2.0)
     (company "Felix Kübler")
   )
 
@@ -90,11 +90,11 @@
       (plotinvisibletext false)
       (padsonsilk false)
       (subtractmaskfromsilk false)
-      (outputformat 4)
+      (outputformat 1)
       (mirror false)
       (drillshape 0)
       (scaleselection 1)
-      (outputdirectory ../Plots/))
+      (outputdirectory ../Gerber/))
   )
 
   (net 0 "")
@@ -861,7 +861,7 @@
     )
   )
 
-  (gr_text "Home Automation\nSwitch + Relay\nRevision 1.0.2\nby Felix Kübler" (at 134.493 104.267 90) (layer B.SilkS)
+  (gr_text "Home Automation\nSwitch + Relay\nRevision 1.2.0\nby Felix Kübler" (at 134.493 104.267 90) (layer B.SilkS)
     (effects (font (size 0.8 0.8) (thickness 0.15)) (justify left mirror))
   )
   (dimension 36.449 (width 0.3) (layer Eco1.User)
