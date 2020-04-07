@@ -1,17 +1,4 @@
-/**@file Software.ino**/
-
-/** \mainpage My Personal Index Page
- *
- * \section intro Introduction
- *
- * This is the introduction.
- *
- * \section install Installation
- *
- * \subsection step1 Step 1: Opening the box
- *  
- * etc...
- **/
+/**@file Source.ino**/
  
 #include <map>
 #include <vector>
@@ -105,9 +92,6 @@ void htmlHandleRequest()
      
 
 
-
-  
-  
   //get ssid request message from client
   String val = wifiServer.arg("wifi_ssid");
   //check if a message is not empty
@@ -638,10 +622,6 @@ void loop(void)
       WiFi.disconnect();
       delay(100);
       wifi_setup(1);
-      
-      //reboot system
-      //ESP.eraseConfig();
-      //ESP.reset();
     }
   }
   else if(setup_type==backup_config)
@@ -655,10 +635,6 @@ void loop(void)
         WiFi.disconnect();
         delay(100);
         wifi_setup(1);
-      
-        //reboot system
-        //ESP.eraseConfig();
-        //ESP.reset();
       }
     }
   }
